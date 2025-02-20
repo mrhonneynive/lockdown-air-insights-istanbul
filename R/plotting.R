@@ -37,3 +37,11 @@ plot_histogram(uskudar, "PM10 ( µg/m3 )", "PM10 Levels in Uskudar without Outli
 plot_histogram(uskudar, "PM 2.5 ( µg/m3 )", "PM2.5 Levels in Uskudar without Outliers", "PM2.5 (µg/m3)")
 plot_histogram(uskudar, "SO2 ( µg/m3 )", "SO2 Levels in Uskudar without Outliers", "SO2 (µg/m3)")
 plot_histogram(uskudar, "NO2 ( µg/m3 )", "NO2 Levels in Uskudar without Outliers", "NO2 (µg/m3)")
+
+boxplot(anatolian_electricity$KARTAL)
+boxplot(anatolian_electricity$ÜSKÜDAR)
+boxplot(anatolian_electricity$ÜMRANİYE)
+boxplot(european_electricity$SİLİVRİ)
+boxplot(european_electricity$ARNAVUTKÖY)
+boxplot(european_electricity$SULTANGAZİ)
+# observed that there are outliers in the data
