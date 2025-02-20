@@ -48,3 +48,11 @@ remove_outliers_iqr <- function(data) {
   
   return(data_clean)
 }
+
+# remove outliers from each dataset
+uskudar <- remove_outliers_iqr(uskudar)
+kartal <- remove_outliers_iqr(kartal)
+umraniye <- remove_outliers_iqr(umraniye)
+silivri <- remove_outliers_iqr(silivri)
+arnavutkoy <- remove_outliers_iqr(arnavutkoy)
+sultangazi <- remove_outliers_iqr(sultangazi)
