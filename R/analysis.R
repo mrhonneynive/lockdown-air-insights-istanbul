@@ -39,8 +39,38 @@ calculate_stats <- function(data, column_name) {
   return(results)
 }
 
-# calculate descriptive statistics for uskudar 
+# calculate descriptive statistics for each district
+kartal_pm10 <- calculate_stats(kartal, "PM10 ( µg/m3 )")
 uskudar_pm10 <- calculate_stats(uskudar, "PM10 ( µg/m3 )")
+umraniye_pm10 <- calculate_stats(umraniye, "PM10 ( µg/m3 )")
+silivri_pm10 <- calculate_stats(silivri, "PM10 ( µg/m3 )")
+arnavutkoy_pm10 <- calculate_stats(arnavutkoy, "PM10 ( µg/m3 )")
+sultangazi_pm10 <- calculate_stats(sultangazi, "PM10 ( µg/m3 )")
+
+kartal_pm25 <- calculate_stats(kartal, "PM 2.5 ( µg/m3 )")
 uskudar_pm25 <- calculate_stats(uskudar, "PM 2.5 ( µg/m3 )")
+umraniye_pm25 <- calculate_stats(umraniye, "PM 2.5 ( µg/m3 )")
+silivri_pm25 <- calculate_stats(silivri, "PM 2.5 ( µg/m3 )")
+arnavutkoy_pm25 <- calculate_stats(arnavutkoy, "PM 2.5 ( µg/m3 )")
+sultangazi_pm25 <- calculate_stats(sultangazi, "PM 2.5 ( µg/m3 )")
+
+kartal_so2 <- calculate_stats(kartal, "SO2 ( µg/m3 )")
 uskudar_so2 <- calculate_stats(uskudar, "SO2 ( µg/m3 )")
+umraniye_so2 <- calculate_stats(umraniye, "SO2 ( µg/m3 )")
+silivri_so2 <- calculate_stats(silivri, "SO2 ( µg/m3 )")
+arnavutkoy_so2 <- calculate_stats(arnavutkoy, "SO2 ( µg/m3 )")
+sultangazi_so2 <- calculate_stats(sultangazi, "SO2 ( µg/m3 )")
+
+kartal_no2 <- calculate_stats(kartal, "NO2 ( µg/m3 )")
 uskudar_no2 <- calculate_stats(uskudar, "NO2 ( µg/m3 )")
+umraniye_no2 <- calculate_stats(umraniye, "NO2 ( µg/m3 )")
+silivri_no2 <- calculate_stats(silivri, "NO2 ( µg/m3 )")
+arnavutkoy_no2 <- calculate_stats(arnavutkoy, "NO2 ( µg/m3 )")
+sultangazi_no2 <- calculate_stats(sultangazi, "NO2 ( µg/m3 )")
+
+kartal_elec <- calculate_stats(anatolian_electricity, "KARTAL")
+uskudar_elec <- calculate_stats(anatolian_electricity, "ÜSKÜDAR")
+umraniye_elec <- calculate_stats(anatolian_electricity, "ÜMRANİYE")
+arnavutkoy_elec <- calculate_stats(european_electricity, "ARNAVUTKÖY")
+silivri_elec <- calculate_stats(european_electricity, "SİLİVRİ")
+sultangazi_elec <- calculate_stats(european_electricity, "SULTANGAZİ")
