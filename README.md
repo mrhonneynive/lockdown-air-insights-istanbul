@@ -10,6 +10,8 @@ This repository is accompanied by a paper titled "Does Industrial Reductions Mat
 
 You can [view the full paper here](./hasanHuseyinBalbicakTermProject.pdf).
 
+The R scripts and ggplot2 visualizations help extend the analysis for further insights into urban air quality management.
+
 ## Project Objectives
 
 - **Analyze Air Quality Data:** Compare pollutant levels before, during, and after the COVID-19 lockdown in Istanbul.
