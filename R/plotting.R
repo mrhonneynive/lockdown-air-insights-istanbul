@@ -53,3 +53,45 @@ boxplot(european_electricity$SİLİVRİ)
 boxplot(european_electricity$ARNAVUTKÖY)
 boxplot(european_electricity$SULTANGAZİ)
 # completed cleaning and removing outliers
+
+all_data <- bind_rows(
+  uskudar %>% mutate(District = "ÜSKÜDAR"),
+  kartal %>% mutate(District = "KARTAL"),
+  umraniye %>% mutate(District = "ÜMRANİYE"),
+  silivri %>% mutate(District = "SİLİVRİ"),
+  arnavutkoy %>% mutate(District = "ARNAVUTKÖY"),
+  sultangazi %>% mutate(District = "SULTANGAZİ")
+)
+
+all_data <- all_data %>%
+  mutate(
+    date = as.Date(format(...1, "%Y-%m-%d")),
+    Period = ifelse(
+      date <= as.Date("2020-04-12"), "Pre-COVID",
+      ifelse(date <= as.Date("2020-12-31"), "During COVID", "Post-COVID")
+    )
+  )
+
+# boxplot pm10 comparison
+ggplot(all_data, aes(x = District, y = `PM10 ( µg/m3 )`, fill = District)) +
+  geom_boxplot() +
+  labs(x = "District", y = expression("PM"[10]~"("*mu*"g/m"^3*")")) +
+  theme_minimal()
+
+# boxplot pm2.5 comparison
+ggplot(all_data, aes(x = District, y = `PM 2.5 ( µg/m3 )`, fill = District)) +
+  geom_boxplot() +
+  labs(x = "District", y = "PM 2.5 (µg/m3)") +
+  theme_minimal()
+
+# boxplot so2 comparison
+ggplot(all_data, aes(x = District, y = `SO2 ( µg/m3 )`, fill = District)) +
+  geom_boxplot() +
+  labs(x = "District", y = "PM 2.5 (µg/m3)") +
+  theme_minimal()
+
+# boxplot no2 comparison
+ggplot(all_data, aes(x = District, y = `NO2 ( µg/m3 )`, fill = District)) +
+  geom_boxplot() +
+  labs(x = "District", y = "PM 2.5 (µg/m3)") +
+  theme_minimal()
