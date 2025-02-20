@@ -129,3 +129,24 @@ european_electricity <- european_electricity %>%
     names_from = `Belediye/İl Özel İdaresi Adı`,  
     values_from = `Toplam Tüketim (kWh)`  
   )
+
+
+remove_outliers_iqr <- function(df, cols) {
+  df_clean <- df %>%
+    mutate(across(all_of(cols), ~ {
+      q1 <- quantile(.x, 0.25, na.rm = T)
+      q3 <- quantile(.x, 0.75, na.rm = T)
+      iqr <- q3 - q1
+      lower_bound <- max(0, q1 - 1.5 * iqr)
+      upper_bound <- min(max(.x, na.rm = T), q3 + 1.5 * iqr)
+      
+      cat("Column:", deparse(substitute(.x)), "\n")
+      cat("Q1:", q1, "Q3:", q3, "\n")
+      cat("Lower Bound:", lower_bound, "Upper Bound:", upper_bound, "\n")
+      
+      # Replace outliers with NA
+      ifelse(.x >= lower_bound & .x <= upper_bound, .x, NA)
+    })) %>%
+    filter(if_all(all_of(cols), ~ !is.na(.))) 
+  return(df_clean)
+}
