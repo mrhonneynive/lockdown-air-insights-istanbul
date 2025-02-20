@@ -230,3 +230,69 @@ ggplot(reductions, aes(x = Period, y = Value, group = interaction(District, Metr
     plot.title = element_text(face = "bold", size = 16)
   ) +
   facet_wrap(~ District, scales = "free_y")
+
+# h4
+# h4
+# h4
+lollipop_data <- all_data %>%
+  group_by(District) %>%
+  summarize(
+    PM10_Reduction = max(`PM10 ( µg/m3 )`, na.rm = TRUE) - min(`PM10 ( µg/m3 )`, na.rm = TRUE),
+    PM25_Reduction = max(`PM 2.5 ( µg/m3 )`, na.rm = TRUE) - min(`PM 2.5 ( µg/m3 )`, na.rm = TRUE),
+    SO2_Reduction = max(`SO2 ( µg/m3 )`, na.rm = TRUE) - min(`SO2 ( µg/m3 )`, na.rm = TRUE),
+    NO2_Reduction = max(`NO2 ( µg/m3 )`, na.rm = TRUE) - min(`NO2 ( µg/m3 )`, na.rm = TRUE)
+  ) %>%
+  pivot_longer(
+    cols = c(PM10_Reduction, PM25_Reduction, SO2_Reduction, NO2_Reduction),
+    names_to = "Pollutant",
+    values_to = "Reduction"
+  ) %>%
+  mutate(Location = ifelse(
+    District %in% anatolian_districts, "Anatolian", "European"
+  )) %>%
+  arrange(Location, District) %>%
+  mutate(District = factor(District, levels = unique(District)))
+
+color_palette <- c(
+  "PM10_Reduction" = "steelblue",
+  "PM25_Reduction" = "forestgreen",
+  "SO2_Reduction" = "goldenrod",
+  "NO2_Reduction" = "firebrick"
+)
+
+ggplot(lollipop_data, aes(x = Pollutant, y = Reduction)) + 
+  geom_segment(aes(x = Pollutant, xend = Pollutant, y = 0, yend = Reduction), size = 2, color="skyblue") +
+  geom_point(size = 8, aes(color = Pollutant)) + 
+  geom_text(aes(label = round(Reduction, 2)), size = 5, fontface = "bold", vjust = -1.0) +
+  facet_wrap(~ District, scales = "free_y") +
+  scale_color_manual(values = color_palette,
+                     labels = c(
+                       "PM10_Reduction" = expression(PM[10]),
+                       "PM25_Reduction" = expression(PM[2.5]),
+                       "SO2_Reduction" = expression(SO[2]),
+                       "NO2_Reduction" = expression(NO[2])
+                     )) +
+  scale_x_discrete(
+    labels = c(
+      "PM10_Reduction" = expression(PM[10]),
+      "PM25_Reduction" = expression(PM[2.5]),
+      "SO2_Reduction" = expression(SO[2]),
+      "NO2_Reduction" = expression(NO[2])
+    )
+  ) +
+  labs(
+    x = "Pollutant",
+    y = "Reduction (µg/m³)",
+    color = "Pollutant"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "top",
+    plot.title = element_text(size = 22, face = "bold", hjust = 0.5),
+    axis.text.x = element_text(size = 16, angle = 45, hjust = 1),
+    axis.text.y = element_text(size = 16),
+    axis.title.x = element_text(size = 18),
+    axis.title.y = element_text(size = 18)
+  ) +
+  ylim(0, max(lollipop_data$Reduction) * 1.1)
+
