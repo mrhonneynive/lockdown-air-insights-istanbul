@@ -175,3 +175,58 @@ ggplot(no2_period, aes(x = District, y = Avg_NO2, fill = Period)) +
   scale_fill_manual(values = c("Pre-COVID" = "#1f78b4",   
                                "During COVID" = "#33a02c", 
                                "Post-COVID" = "#e31a1c"))  
+
+# h3
+# h3
+# h3
+reductions <- all_data %>%
+  group_by(District, Period) %>%
+  summarize(
+    SO2_Reduction = max(`SO2 ( µg/m3 )`, na.rm = TRUE) - min(`SO2 ( µg/m3 )`, na.rm = TRUE),
+    NO2_Reduction = max(`NO2 ( µg/m3 )`, na.rm = TRUE) - min(`NO2 ( µg/m3 )`, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(Period = factor(Period, levels = c("Pre-COVID", "During COVID", "Post-COVID"))) %>%
+  mutate(Location = ifelse(
+    District %in% anatolian_districts, "Anatolian", "European"
+  )) %>%
+  mutate(SO2_Reduction = SO2_Reduction * 10) %>% # scale up by 10
+  pivot_longer(cols = c(SO2_Reduction, NO2_Reduction),
+               names_to = "Metric",
+               values_to = "Value")
+
+reductions$District <- factor(reductions$District, 
+                              levels = reductions %>%
+                                arrange(Location, District) %>%
+                                pull(District) %>%
+                                unique())
+
+ggplot(reductions, aes(x = Period, y = Value, group = interaction(District, Metric), color = Metric)) +
+  geom_line(aes(linetype = Metric), size = 1.2) +  # Add linetype for dashed lines
+  geom_point(size = 3) +
+  scale_color_manual(
+    values = c("SO2_Reduction" = "orange", "NO2_Reduction" = "skyblue"),
+    labels = c(
+      "SO2_Reduction" = expression(SO[2] ~ "* 10"),
+      "NO2_Reduction" = expression(NO[2])
+    )
+  ) +
+  scale_linetype_manual(values = c("SO2_Reduction" = "solid", "NO2_Reduction" = "dashed"), 
+                        labels = c(
+                          "SO2_Reduction" = expression(SO[2] ~ "* 10"),
+                          "NO2_Reduction" = expression(NO[2])
+                          )
+                        ) +
+  labs(
+    x = "COVID Period",
+    y = expression("Reduction (" ~ SO[2] ~ " * 10)"),
+    color = "Metric",
+    linetype = "Metric"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "top",
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    plot.title = element_text(face = "bold", size = 16)
+  ) +
+  facet_wrap(~ District, scales = "free_y")
