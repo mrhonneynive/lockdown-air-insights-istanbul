@@ -150,3 +150,7 @@ remove_outliers_iqr <- function(df, cols) {
     filter(if_all(all_of(cols), ~ !is.na(.))) 
   return(df_clean)
 }
+
+# apply outlier removal
+anatolian_electricity <- remove_outliers_iqr(anatolian_electricity, anatolian_districts)
+european_electricity <- remove_outliers_iqr(european_electricity, european_districts)
