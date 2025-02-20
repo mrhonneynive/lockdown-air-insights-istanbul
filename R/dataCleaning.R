@@ -90,3 +90,42 @@ anatolian_electricity <- anatolian_electricity %>%
     names_from = `Belediye/İl Özel İdaresi Adı`,  
     values_from = `Toplam Tüketim Miktarı (kWh)`  
   )
+
+european_base_path <- "/home/hasan/Documents/CTIS365/termProject/data/electricityUsage/bedas"
+file_paths <- c(
+  "2019-01.xlsx", "2019-02.xlsx", "2019-03.xlsx", "2019-04.xlsx", "2019-05.xlsx",
+  "2019-06.xlsx", "2019-07.xlsx", "2019-08.xlsx", "2019-09.xlsx", "2019-10.xlsx",
+  "2019-11.xlsx", "2019-12.xlsx",
+  
+  "2020-01.xlsx", "2020-02.xlsx", "2020-03.xlsx", "2020-04.xlsx", "2020-05.xlsx",
+  "2020-06.xlsx", "2020-07.xlsx", "2020-08.xlsx", "2020-09.xlsx", "2020-10.xlsx",
+  "2020-11.xlsx", "2020-12.xlsx",
+  
+  "2021-01.xlsx", "2021-02.xlsx", "2021-03.xlsx", "2021-04.xlsx", "2021-05.xlsx",
+  "2021-06.xlsx", "2021-07.xlsx", "2021-08.xlsx", "2021-09.xlsx", "2021-10.xlsx",
+  "2021-11.xlsx", "2021-12.xlsx"
+)
+european_districts <- c("ARNAVUTKÖY", "SİLİVRİ", "SULTANGAZİ")
+european_electricity <- data.frame()
+
+for (file_name in file_paths) {
+  file_path <- file.path(european_base_path, file_name)
+  
+  data <- read_excel(file_path, skip = 1)
+  
+  month <- gsub(".xlsx", "", file_name)
+  
+  
+  data <- data %>%
+    filter(`Belediye/İl Özel İdaresi Adı` %in% european_districts) %>%  
+    select(`Belediye/İl Özel İdaresi Adı`, last_col()) %>%  
+    mutate(month = month)  
+  
+  european_electricity <- bind_rows(european_electricity, data)
+}
+
+european_electricity <- european_electricity %>%
+  pivot_wider(
+    names_from = `Belediye/İl Özel İdaresi Adı`,  
+    values_from = `Toplam Tüketim (kWh)`  
+  )
