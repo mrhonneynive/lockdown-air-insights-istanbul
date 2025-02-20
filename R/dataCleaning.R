@@ -32,3 +32,19 @@ arnavutkoy <- arnavutkoy %>%
 sultangazi <- sultangazi %>%
   filter(!apply(sultangazi, 1, function(row) any(row == "-"))) %>%
   mutate(across((ncol(.)-3):ncol(.), ~ as.numeric(gsub(",", ".", gsub("[^0-9.,-]", "", .)))))
+
+# remove outliers using IQR method
+remove_outliers_iqr <- function(data) {
+  data_clean <- data %>%
+    mutate(across(where(is.numeric), ~ {
+      q1 <- quantile(.x, 0.25, na.rm = TRUE)
+      q3 <- quantile(.x, 0.75, na.rm = TRUE)
+      iqr <- q3 - q1
+      lower_bound <- max(0, q1 - 1.5 * iqr)
+      upper_bound <- q3 + 1.5 * iqr 
+      ifelse(.x >= lower_bound & .x <= upper_bound, .x, NA)
+    })) %>%
+    filter(!if_any(where(is.numeric), is.na))  
+  
+  return(data_clean)
+}
