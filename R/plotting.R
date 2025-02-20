@@ -45,3 +45,11 @@ boxplot(european_electricity$SİLİVRİ)
 boxplot(european_electricity$ARNAVUTKÖY)
 boxplot(european_electricity$SULTANGAZİ)
 # observed that there are outliers in the data
+
+boxplot(anatolian_electricity$KARTAL)
+boxplot(anatolian_electricity$ÜSKÜDAR)
+boxplot(anatolian_electricity$ÜMRANİYE)
+boxplot(european_electricity$SİLİVRİ)
+boxplot(european_electricity$ARNAVUTKÖY)
+boxplot(european_electricity$SULTANGAZİ)
+# completed cleaning and removing outliers
