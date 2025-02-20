@@ -95,3 +95,55 @@ ggplot(all_data, aes(x = District, y = `NO2 ( µg/m3 )`, fill = District)) +
   geom_boxplot() +
   labs(x = "District", y = "PM 2.5 (µg/m3)") +
   theme_minimal()
+
+
+# h1
+# h1
+# h1
+aggregate_so2 <- function(data, district_name) {
+  data %>%
+    mutate(month = as.Date(format(as.Date(`...1`), "%Y-%m-01"))) %>%  
+    group_by(month) %>%
+    summarise(SO2_mean = mean(`SO2 ( µg/m3 )`, na.rm = TRUE)) %>%
+    mutate(District = district_name)
+}
+
+so2_data <- bind_rows(
+  aggregate_so2(kartal, "KARTAL"),
+  aggregate_so2(uskudar, "ÜSKÜDAR"),
+  aggregate_so2(umraniye, "ÜMRANİYE"),
+  aggregate_so2(arnavutkoy, "ARNAVUTKÖY"),
+  aggregate_so2(silivri, "SİLİVRİ"),
+  aggregate_so2(sultangazi, "SULTANGAZİ")
+)
+
+industrial_vs_so2 <- electricity_data %>%
+  left_join(so2_data, by = c("month", "District"))
+
+
+ggplot(industrial_vs_so2, aes(x = month)) +
+  geom_point(aes(y = Electricity, color = "Electricity Consumption"), size = 1) +
+  geom_smooth(aes(y = Electricity, color = "Electricity Consumption"), method = "loess", linetype = "dashed") +
+  geom_line(aes(y = SO2_mean * 100000, color = "SO2 Levels"), size = 1) +
+  geom_smooth(aes(y = SO2_mean * 100000, color = "SO2 Levels"), method = "loess", linetype = "dashed") +
+  facet_wrap(~ District, scales = "free_y") +
+  labs(x = "Month",
+       y = expression("Value (" ~ SO[2] ~ " * 10"^6*")"),
+       color = "Metric"
+       ) +
+  scale_color_manual(
+    values = c("Electricity Consumption" = "blue", "SO2 Levels" = "red"),
+    labels = c(
+      "Electricity Consumption" = "Total Electricity Consumption (kWh)",
+      "SO2 Levels" = expression("Value (" ~ SO[2] ~ " * 10"^6*")")
+        )
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "top",
+    legend.title = element_text(size = 14),
+    legend.text = element_text(size = 12),
+    plot.title = element_text(face = "bold", size = 16),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+
