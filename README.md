@@ -15,5 +15,5 @@ This repository hosts an R-based analysis of Istanbul's air quality during the C
 
 - **R Programming:** The primary language used for data cleaning, analysis, and visualization.
 - **ggplot2:** A versatile R package for creating aesthetically pleasing and informative graphics.
-- **tidyverse:** A collection of R packages including dplyr, tidyr, and readr for data manipulation and processing.
+- **tidyverse:** A collection of R packages including dplyr and tidyr for data manipulation and processing.
 - **RStudio:** The integrated development environment (IDE) used to develop and run the analysis.
