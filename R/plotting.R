@@ -147,3 +147,31 @@ ggplot(industrial_vs_so2, aes(x = month)) +
     axis.text.x = element_text(angle = 45, hjust = 1)
   )
 
+# h2
+# h2
+# h2
+no2_period <- all_data %>%
+  group_by(District, Period) %>%
+  summarize(Avg_NO2 = mean(`NO2 ( µg/m3 )`, na.rm = TRUE), .groups = "drop")  %>%
+  mutate(Location = ifelse(
+    District %in% anatolian_districts, "Anatolian", "European")
+  )
+
+no2_period$Period <- factor(no2_period$Period, levels = c("Pre-COVID", "During COVID", "Post-COVID"))
+
+no2_period$District <- factor(no2_period$District, 
+                              levels = no2_period %>%
+                                arrange(Location, District) %>%
+                                pull(District) %>%
+                                unique())
+
+ggplot(no2_period, aes(x = District, y = Avg_NO2, fill = Period)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(x = "District", 
+       y = expression("NO"[2]~"("*mu*"g/m"^3*")"),
+       fill = "COVID Period") +
+  theme_minimal() +
+  theme(legend.position = "top") + 
+  scale_fill_manual(values = c("Pre-COVID" = "#1f78b4",   
+                               "During COVID" = "#33a02c", 
+                               "Post-COVID" = "#e31a1c"))  
