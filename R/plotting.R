@@ -31,3 +31,9 @@ plot_histogram(uskudar, "SO2 ( µg/m3 )", "SO2 Levels in Uskudar", "SO2 (µg/m3)
 plot_histogram(uskudar, "NO2 ( µg/m3 )", "NO2 Levels in Uskudar", "NO2 (µg/m3)")
 # so2 graph shows that it must have huge outliers
 # and my data seems negatively skewed
+
+# plot histograms without outliers
+plot_histogram(uskudar, "PM10 ( µg/m3 )", "PM10 Levels in Uskudar without Outliers", "PM10 (µg/m3)")
+plot_histogram(uskudar, "PM 2.5 ( µg/m3 )", "PM2.5 Levels in Uskudar without Outliers", "PM2.5 (µg/m3)")
+plot_histogram(uskudar, "SO2 ( µg/m3 )", "SO2 Levels in Uskudar without Outliers", "SO2 (µg/m3)")
+plot_histogram(uskudar, "NO2 ( µg/m3 )", "NO2 Levels in Uskudar without Outliers", "NO2 (µg/m3)")
