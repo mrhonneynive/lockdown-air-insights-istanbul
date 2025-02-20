@@ -38,3 +38,9 @@ calculate_stats <- function(data, column_name) {
   
   return(results)
 }
+
+# calculate descriptive statistics for uskudar 
+uskudar_pm10 <- calculate_stats(uskudar, "PM10 ( µg/m3 )")
+uskudar_pm25 <- calculate_stats(uskudar, "PM 2.5 ( µg/m3 )")
+uskudar_so2 <- calculate_stats(uskudar, "SO2 ( µg/m3 )")
+uskudar_no2 <- calculate_stats(uskudar, "NO2 ( µg/m3 )")
